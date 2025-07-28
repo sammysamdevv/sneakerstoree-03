@@ -1,7 +1,1 @@
 project_id = "cldyihpqmlwequmnrdsu"
-
-[functions.send-auth-email]
-verify_jwt = false
-
-[functions.ai-chatbot]
-verify_jwt = false
