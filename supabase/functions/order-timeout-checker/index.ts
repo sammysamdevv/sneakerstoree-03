@@ -68,6 +68,23 @@ Deno.serve(async (req) => {
       throw updateError
     }
 
+    // Update any related affiliate commissions
+    const { error: commissionError } = await supabase
+      .from('affiliate_commissions')
+      .update({
+        status: 'rejected',
+        rejection_reason: 'Customer stopped at checkout and order was not completed',
+        rejected_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      })
+      .in('order_id', orderIds)
+
+    if (commissionError) {
+      console.error('Error updating affiliate commissions:', commissionError)
+    } else {
+      console.log(`Updated affiliate commissions for ${orderIds.length} failed orders`)
+    }
+
     // Log the updated orders for audit purposes
     for (const order of expiredOrders) {
       console.log(`Order ${order.id} (${order.customer_name}) marked as payment_failed - STK push timeout`)
