@@ -48,6 +48,14 @@ const Checkout = () => {
       }
 
       if (data.success) {
+        // Store the checkout request ID in the order for tracking
+        if (data.checkoutRequestId) {
+          await supabase
+            .from('orders')
+            .update({ checkout_request_id: data.checkoutRequestId })
+            .eq('id', orderId);
+        }
+
         toast({
           title: "M-Pesa Payment Initiated",
           description: "Please check your phone for the M-Pesa payment prompt.",
