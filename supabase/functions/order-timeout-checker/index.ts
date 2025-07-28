@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
     const { error: updateError } = await supabase
       .from('orders')
       .update({ 
-        status: 'failed',
+        status: 'payment_failed',
         updated_at: new Date().toISOString()
       })
       .in('id', orderIds)
@@ -70,13 +70,13 @@ Deno.serve(async (req) => {
 
     // Log the updated orders for audit purposes
     for (const order of expiredOrders) {
-      console.log(`Order ${order.id} (${order.customer_name}) marked as failed - STK push timeout`)
+      console.log(`Order ${order.id} (${order.customer_name}) marked as payment_failed - STK push timeout`)
     }
 
     return new Response(
       JSON.stringify({ 
         success: true, 
-        message: `Updated ${expiredOrders.length} expired orders to failed status`,
+        message: `Updated ${expiredOrders.length} expired orders to payment_failed status`,
         updatedOrders: expiredOrders.length,
         checkedAt: new Date().toISOString()
       }),
