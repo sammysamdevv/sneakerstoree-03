@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 interface CartItem {
   id: string;
@@ -30,23 +31,34 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
+  const { user } = useAuth();
 
-  // Load cart from localStorage on mount
+  // Get user-specific cart key
+  const getCartKey = () => {
+    return user ? `sneaker-store-cart-${user.id}` : "sneaker-store-cart-guest";
+  };
+
+  // Load cart from localStorage when user changes
   useEffect(() => {
-    const savedCart = localStorage.getItem("sneaker-store-cart");
+    const cartKey = getCartKey();
+    const savedCart = localStorage.getItem(cartKey);
     if (savedCart) {
       try {
         setItems(JSON.parse(savedCart));
       } catch (error) {
         console.error("Error loading cart from localStorage:", error);
+        setItems([]);
       }
+    } else {
+      setItems([]);
     }
-  }, []);
+  }, [user]); // Reload cart when user changes
 
   // Save cart to localStorage whenever items change
   useEffect(() => {
-    localStorage.setItem("sneaker-store-cart", JSON.stringify(items));
-  }, [items]);
+    const cartKey = getCartKey();
+    localStorage.setItem(cartKey, JSON.stringify(items));
+  }, [items, user]);
 
   const addItem = (product: { id: string; name: string; price: number; image_url?: string }) => {
     setItems((prevItems) => {

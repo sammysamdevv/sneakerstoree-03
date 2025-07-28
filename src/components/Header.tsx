@@ -248,6 +248,27 @@ const Header = () => {
         {/* Right side icons */}
         <div className="flex items-center space-x-2">
           <CartDrawer />
+          
+          {/* Sign in/out button */}
+          {user ? (
+            <Button 
+              variant="ghost" 
+              onClick={handleSignOut}
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Sign Out
+            </Button>
+          ) : (
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate("/auth")}
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              <User className="h-4 w-4 mr-2" />
+              Sign In
+            </Button>
+          )}
         </div>
       </div>
     </header>
