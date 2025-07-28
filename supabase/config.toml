@@ -1,1 +1,22 @@
 project_id = "cldyihpqmlwequmnrdsu"
+
+[functions.send-auth-email]
+verify_jwt = false
+
+[functions.ai-chatbot]
+verify_jwt = false
+
+[functions.mpesa-stk-push]
+verify_jwt = true
+
+[functions.create-affiliate-commission]
+verify_jwt = true
+
+[functions.process-affiliate-commissions]
+verify_jwt = false
+
+[functions.process-payout-completion]
+verify_jwt = false
+
+[functions.daily-tasks]
+verify_jwt = false
