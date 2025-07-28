@@ -70,7 +70,7 @@ const Header = () => {
           <div className="flex flex-col items-center">
             <span className="text-xl font-bold text-primary">Sneaker</span>
             <img 
-              src="/lovable-uploads/4e022f97-ca5f-4eb1-8373-44a8fd7819fe.png" 
+              src="/lovable-uploads/fc4c83df-0c8f-4dc1-b577-fda0d7537c33.png" 
               alt="SneakerStore Logo" 
               className="h-8 w-8"
             />

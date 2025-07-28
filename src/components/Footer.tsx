@@ -11,7 +11,7 @@ const Footer = () => {
             <div className="flex items-center space-x-2">
               <h3 className="text-lg font-semibold text-foreground">SneakerStore</h3>
               <img 
-                src="/lovable-uploads/4e022f97-ca5f-4eb1-8373-44a8fd7819fe.png" 
+                src="/lovable-uploads/fc4c83df-0c8f-4dc1-b577-fda0d7537c33.png" 
                 alt="SneakerStore Logo" 
                 className="h-6 w-6"
               />
