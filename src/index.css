@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 156 8% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 156 8% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 156 8% 15%;
+
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 142 30% 95%;
+    --secondary-foreground: 156 8% 15%;
+
+    --muted: 142 30% 95%;
+    --muted-foreground: 156 16% 46%;
+
+    --accent: 142 30% 90%;
+    --accent-foreground: 156 8% 15%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 142 30% 88%;
+    --input: 142 30% 88%;
+    --ring: 142 76% 36%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 142 30% 98%;
+
+    --sidebar-foreground: 156 8% 26%;
+
+    --sidebar-primary: 142 76% 36%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 142 30% 95%;
+
+    --sidebar-accent-foreground: 156 8% 15%;
+
+    --sidebar-border: 142 30% 88%;
+
+    --sidebar-ring: 142 76% 50%;
+  }
+
+  .dark {
+    --background: 156 8% 8%;
+    --foreground: 142 30% 95%;
+
+    --card: 156 8% 10%;
+    --card-foreground: 142 30% 95%;
+
+    --popover: 156 8% 10%;
+    --popover-foreground: 142 30% 95%;
+
+    --primary: 142 76% 50%;
+    --primary-foreground: 156 8% 8%;
+
+    --secondary: 156 8% 15%;
+    --secondary-foreground: 142 30% 95%;
+
+    --muted: 156 8% 15%;
+    --muted-foreground: 142 20% 65%;
+
+    --accent: 156 8% 18%;
+    --accent-foreground: 142 30% 95%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 156 8% 18%;
+    --input: 156 8% 18%;
+    --ring: 142 76% 50%;
+    --sidebar-background: 156 8% 8%;
+    --sidebar-foreground: 142 30% 95%;
+    --sidebar-primary: 142 76% 50%;
+    --sidebar-primary-foreground: 156 8% 8%;
+    --sidebar-accent: 156 8% 15%;
+    --sidebar-accent-foreground: 142 30% 95%;
+    --sidebar-border: 156 8% 18%;
+    --sidebar-ring: 142 76% 60%;
+  }
+}
+
+/* Moving text animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}

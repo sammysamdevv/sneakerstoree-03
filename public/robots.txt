@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Important pages
+Allow: /products
+Allow: /category/*
+Allow: /product/*
+
+# Disallow private pages
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /checkout
+
+# Sitemap
+Sitemap: https://sneakerstore.co.ke/sitemap.xml
