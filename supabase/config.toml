@@ -26,6 +26,3 @@ verify_jwt = false
 
 [functions.mpesa-callback]
 verify_jwt = false
-
-[functions.order-timeout-checker.cron]
-schedule = "* * * * *"  # Every minute
