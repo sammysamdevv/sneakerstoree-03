@@ -212,44 +212,6 @@ const Header = () => {
         {/* Right side icons */}
         <div className="flex items-center space-x-2">
           <CartDrawer />
-          
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative">
-                  <User className="h-5 w-5" />
-                  <span className="sr-only">User menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-background border shadow-lg">
-                <div className="px-3 py-2 text-sm">
-                  <p className="font-medium">Welcome back!</p>
-                  <p className="text-muted-foreground truncate">{user.email}</p>
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate("/dashboard")} className="cursor-pointer">
-                  <User className="mr-2 h-4 w-4" />
-                  Dashboard
-                </DropdownMenuItem>
-                {isAdmin && (
-                  <DropdownMenuItem onClick={() => navigate("/admin")} className="cursor-pointer">
-                    <User className="mr-2 h-4 w-4" />
-                    Admin Panel
-                  </DropdownMenuItem>
-                )}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-red-600 focus:text-red-600">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button variant="ghost" size="icon" onClick={() => navigate("/auth")}>
-              <User className="h-5 w-5" />
-              <span className="sr-only">Sign in</span>
-            </Button>
-          )}
         </div>
       </div>
     </header>
