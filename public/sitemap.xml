@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <!-- Homepage -->
   <url>
-    <loc>https://edensneakers.co.ke/</loc>
+    <loc>https://sneakerstore.co.ke/</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -10,7 +10,7 @@
   
   <!-- Products page -->
   <url>
-    <loc>https://edensneakers.co.ke/products</loc>
+    <loc>https://sneakerstore.co.ke/products</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -18,7 +18,7 @@
   
   <!-- Auth page -->
   <url>
-    <loc>https://edensneakers.co.ke/auth</loc>
+    <loc>https://sneakerstore.co.ke/auth</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -26,28 +26,28 @@
   
   <!-- Category pages - Women -->
   <url>
-    <loc>https://edensneakers.co.ke/category/women-shoes</loc>
+    <loc>https://sneakerstore.co.ke/category/women-shoes</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/category/women-sneakers</loc>
+    <loc>https://sneakerstore.co.ke/category/women-sneakers</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/category/heels</loc>
+    <loc>https://sneakerstore.co.ke/category/heels</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/category/flats</loc>
+    <loc>https://sneakerstore.co.ke/category/flats</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -55,14 +55,14 @@
   
   <!-- Category pages - Men -->
   <url>
-    <loc>https://edensneakers.co.ke/category/men-shoes</loc>
+    <loc>https://sneakerstore.co.ke/category/men-shoes</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/category/loafers</loc>
+    <loc>https://sneakerstore.co.ke/category/loafers</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -70,21 +70,21 @@
   
   <!-- Category pages - Unisex -->
   <url>
-    <loc>https://edensneakers.co.ke/category/unisex-shoes</loc>
+    <loc>https://sneakerstore.co.ke/category/unisex-shoes</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/category/sandals</loc>
+    <loc>https://sneakerstore.co.ke/category/sandals</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/category/casual</loc>
+    <loc>https://sneakerstore.co.ke/category/casual</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -92,14 +92,14 @@
   
   <!-- Brand pages -->
   <url>
-    <loc>https://edensneakers.co.ke/category/nike</loc>
+    <loc>https://sneakerstore.co.ke/category/nike</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/category/jordans</loc>
+    <loc>https://sneakerstore.co.ke/category/jordans</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -107,42 +107,42 @@
   
   <!-- Location-specific landing pages for SEO -->
   <url>
-    <loc>https://edensneakers.co.ke/products?search=sneakers+nairobi</loc>
+    <loc>https://sneakerstore.co.ke/products?search=sneakers+nairobi</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/products?search=jordans+nairobi</loc>
+    <loc>https://sneakerstore.co.ke/products?search=jordans+nairobi</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/products?search=sneakers+mombasa</loc>
+    <loc>https://sneakerstore.co.ke/products?search=sneakers+mombasa</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/products?search=sneakers+kisumu</loc>
+    <loc>https://sneakerstore.co.ke/products?search=sneakers+kisumu</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/products?search=affordable+sneakers</loc>
+    <loc>https://sneakerstore.co.ke/products?search=affordable+sneakers</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/products?search=original+jordans</loc>
+    <loc>https://sneakerstore.co.ke/products?search=original+jordans</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -150,21 +150,21 @@
   
   <!-- Additional popular categories -->
   <url>
-    <loc>https://edensneakers.co.ke/category/sneakers</loc>
+    <loc>https://sneakerstore.co.ke/category/sneakers</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/category/boots</loc>
+    <loc>https://sneakerstore.co.ke/category/boots</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://edensneakers.co.ke/category/formal-shoes</loc>
+    <loc>https://sneakerstore.co.ke/category/formal-shoes</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

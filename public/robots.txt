@@ -12,4 +12,4 @@ Disallow: /dashboard
 Disallow: /checkout
 
 # Sitemap
-Sitemap: https://edensneakers.co.ke/sitemap.xml
+Sitemap: https://sneakerstore.co.ke/sitemap.xml

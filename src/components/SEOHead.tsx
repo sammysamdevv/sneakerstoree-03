@@ -17,7 +17,7 @@ const SEOHead = ({
   imageUrl = "/lovable-uploads/fc4c83df-0c8f-4dc1-b577-fda0d7537c33.png",
   type = "website"
 }: SEOHeadProps) => {
-  const baseUrl = "https://edensneakers.co.ke";
+  const baseUrl = "https://sneakerstore.co.ke";
   const fullCanonicalUrl = canonicalUrl ? `${baseUrl}${canonicalUrl}` : baseUrl;
   const fullImageUrl = imageUrl.startsWith('http') ? imageUrl : `${baseUrl}${imageUrl}`;
 
