@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, CreditCard } from "lucide-react";
+import { Loader2, CreditCard, Smartphone } from "lucide-react";
 
 const Checkout = () => {
   const { items, totalAmount, clearCart } = useCart();
@@ -18,6 +18,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'manual'>('mpesa');
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
     phone: "",
@@ -32,7 +33,38 @@ const Checkout = () => {
   
   const affiliateReferral = getAffiliateReferral();
 
-  // Remove M-Pesa payment for now - orders will be manually confirmed by admin
+  const handleMpesaPayment = async (orderId: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke('mpesa-stk-push', {
+        body: {
+          amount: totalAmount,
+          phone: customerInfo.phone,
+          reference: orderId
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data.success) {
+        toast({
+          title: "M-Pesa Payment Initiated",
+          description: "Please check your phone for the M-Pesa payment prompt.",
+        });
+        return true;
+      } else {
+        throw new Error(data.error || 'M-Pesa payment failed');
+      }
+    } catch (error: any) {
+      toast({
+        title: "M-Pesa Error",
+        description: error.message || 'Failed to initiate M-Pesa payment',
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,14 +144,30 @@ const Checkout = () => {
         sessionStorage.removeItem('affiliate_referral');
       }
 
-      // Clear cart and show success
-      clearCart();
-      
-      toast({
-        title: "Order placed successfully!",
-        description: "Your order is pending admin confirmation. Payment will be handled upon confirmation.",
-      });
+      // Handle payment based on selected method
+      if (paymentMethod === 'mpesa') {
+        const paymentSuccess = await handleMpesaPayment(order.id);
+        if (paymentSuccess) {
+          toast({
+            title: "Order placed successfully!",
+            description: "M-Pesa payment initiated. Complete the payment on your phone.",
+          });
+        } else {
+          // If M-Pesa fails, still allow manual payment
+          toast({
+            title: "Order placed with manual payment",
+            description: "M-Pesa failed but your order is saved. Admin will contact you for payment.",
+          });
+        }
+      } else {
+        toast({
+          title: "Order placed successfully!",
+          description: "Your order is pending admin confirmation. Payment will be handled upon confirmation.",
+        });
+      }
 
+      // Clear cart and navigate
+      clearCart();
       navigate("/dashboard");
     } catch (error: any) {
       toast({
@@ -224,27 +272,74 @@ const Checkout = () => {
                       required
                     />
                   </div>
-                  
+                   
                    <div className="pt-4">
-                     <h3 className="font-semibold mb-2 flex items-center">
-                       <CreditCard className="mr-2 h-4 w-4" />
-                       Order Process
-                     </h3>
-                     <p className="text-sm text-muted-foreground mb-4">
-                       Your order will be reviewed by our admin team. You'll be contacted with payment instructions once confirmed.
-                     </p>
+                     <h3 className="font-semibold mb-3">Payment Method</h3>
+                     <div className="space-y-3">
+                       <div className="flex items-center space-x-2">
+                         <input
+                           type="radio"
+                           id="mpesa"
+                           name="payment"
+                           value="mpesa"
+                           checked={paymentMethod === 'mpesa'}
+                           onChange={(e) => setPaymentMethod(e.target.value as 'mpesa')}
+                           className="text-primary"
+                         />
+                         <label htmlFor="mpesa" className="flex items-center cursor-pointer">
+                           <Smartphone className="mr-2 h-4 w-4 text-green-600" />
+                           M-Pesa Payment (Instant)
+                         </label>
+                       </div>
+                       <div className="flex items-center space-x-2">
+                         <input
+                           type="radio"
+                           id="manual"
+                           name="payment"
+                           value="manual"
+                           checked={paymentMethod === 'manual'}
+                           onChange={(e) => setPaymentMethod(e.target.value as 'manual')}
+                           className="text-primary"
+                         />
+                         <label htmlFor="manual" className="flex items-center cursor-pointer">
+                           <CreditCard className="mr-2 h-4 w-4" />
+                           Manual Payment (Admin Review)
+                         </label>
+                       </div>
+                     </div>
+                     
+                     {paymentMethod === 'mpesa' && (
+                       <div className="mt-3 p-3 bg-green-50 rounded-lg border border-green-200">
+                         <p className="text-sm text-green-800">
+                           📱 You'll receive an M-Pesa STK push notification on your phone to complete payment.
+                         </p>
+                       </div>
+                     )}
+                     
+                     {paymentMethod === 'manual' && (
+                       <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                         <p className="text-sm text-blue-800">
+                           📋 Your order will be reviewed by admin. You'll be contacted with payment instructions.
+                         </p>
+                       </div>
+                     )}
                    </div>
                    
-                   <Button type="submit" className="w-full" disabled={loading}>
-                     {loading ? (
-                       <>
-                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                         Processing Order...
-                       </>
-                     ) : (
-                       "Place Order for Admin Review"
-                     )}
-                   </Button>
+                    <Button type="submit" className="w-full" disabled={loading}>
+                      {loading ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Processing Order...
+                        </>
+                      ) : paymentMethod === 'mpesa' ? (
+                        <>
+                          <Smartphone className="mr-2 h-4 w-4" />
+                          Place Order & Pay with M-Pesa
+                        </>
+                      ) : (
+                        "Place Order for Admin Review"
+                      )}
+                    </Button>
                 </form>
               </CardContent>
             </Card>
