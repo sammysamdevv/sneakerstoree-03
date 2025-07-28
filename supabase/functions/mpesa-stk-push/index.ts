@@ -26,14 +26,16 @@ Deno.serve(async (req) => {
       formattedPhone = '254' + formattedPhone;
     }
 
-    // M-Pesa API credentials (these would be set as environment variables)
+    // M-Pesa API credentials - only Consumer Key and Secret required for sandbox
     const consumerKey = Deno.env.get('MPESA_CONSUMER_KEY');
     const consumerSecret = Deno.env.get('MPESA_CONSUMER_SECRET');
-    const shortcode = Deno.env.get('MPESA_SHORTCODE') || '174379';
-    const passkey = Deno.env.get('MPESA_PASSKEY');
-    const callbackUrl = Deno.env.get('MPESA_CALLBACK_URL') || 'https://your-app.com/api/mpesa-callback';
+    
+    // Sandbox defaults
+    const shortcode = '174379'; // M-Pesa sandbox test shortcode
+    const passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'; // M-Pesa sandbox passkey
+    const callbackUrl = `${Deno.env.get('SUPABASE_URL')}/functions/v1/mpesa-callback`; // Use your Supabase function URL
 
-    if (!consumerKey || !consumerSecret || !passkey) {
+    if (!consumerKey || !consumerSecret) {
       console.log('M-Pesa credentials not configured, returning mock response');
       
       // Return mock success response for development
