@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
 import { supabase } from "@/integrations/supabase/client";
+import { useProductImages } from "@/hooks/useProductImages";
 
 interface Product {
   id: string;
@@ -25,6 +26,7 @@ const ProductDetail = () => {
   const { addItem } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const { images, primaryImage, getImageUrl: getProductImageUrl } = useProductImages(id || '');
 
   const referralCode = searchParams.get('ref');
 
@@ -99,15 +101,6 @@ const ProductDetail = () => {
     }
   };
 
-  const getImageUrl = (imagePath: string | null) => {
-    if (!imagePath) return null;
-    
-    const { data } = supabase.storage
-      .from('product-images')
-      .getPublicUrl(imagePath);
-    
-    return data.publicUrl;
-  };
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -168,39 +161,66 @@ const ProductDetail = () => {
       <Header />
       <main className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <Card>
-            <CardContent className="p-0">
-              <div className="relative aspect-square overflow-hidden">
-                {product.image_url ? (
-                  <img
-                    src={getImageUrl(product.image_url) || ''}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = '/placeholder.svg';
-                    }}
-                  />
-                ) : (
-                  <div className="w-full h-full bg-muted flex items-center justify-center">
-                    <span className="text-muted-foreground">No Image</span>
+          <div className="space-y-4">
+            {/* Main Image */}
+            <Card>
+              <CardContent className="p-0">
+                <div className="relative aspect-square overflow-hidden">
+                  {primaryImage ? (
+                    <img
+                      src={getProductImageUrl(primaryImage.image_url)}
+                      alt={primaryImage.alt_text || product.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/placeholder.svg';
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-muted flex items-center justify-center">
+                      <span className="text-muted-foreground">No Image</span>
+                    </div>
+                  )}
+                  
+                  {product.discount_percentage && product.discount_percentage > 0 && (
+                    <Badge className="absolute top-4 right-4 bg-destructive text-destructive-foreground">
+                      -{product.discount_percentage}%
+                    </Badge>
+                  )}
+                  
+                  {!product.is_available && (
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                      <Badge variant="secondary">Out of Stock</Badge>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Additional Images Thumbnails */}
+            {images.length > 1 && (
+              <div className="grid grid-cols-4 gap-2">
+                {images.map((image, index) => (
+                  <div 
+                    key={image.id} 
+                    className={`relative aspect-square overflow-hidden rounded-lg cursor-pointer border-2 transition-colors ${
+                      image.is_primary ? 'border-primary' : 'border-muted hover:border-muted-foreground'
+                    }`}
+                  >
+                    <img
+                      src={getProductImageUrl(image.image_url)}
+                      alt={image.alt_text || `${product.name} ${index + 1}`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/placeholder.svg';
+                      }}
+                    />
                   </div>
-                )}
-                
-                {product.discount_percentage && product.discount_percentage > 0 && (
-                  <Badge className="absolute top-4 right-4 bg-destructive text-destructive-foreground">
-                    -{product.discount_percentage}%
-                  </Badge>
-                )}
-                
-                {!product.is_available && (
-                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                    <Badge variant="secondary">Out of Stock</Badge>
-                  </div>
-                )}
+                ))}
               </div>
-            </CardContent>
-          </Card>
+            )}
+          </div>
 
           <div className="space-y-6">
             <div>
