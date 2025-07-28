@@ -26,7 +26,7 @@ Deno.serve(async (req) => {
     const { data: expiredOrders, error: fetchError } = await supabase
       .from('orders')
       .select('id, checkout_request_id, created_at, customer_name')
-      .eq('status', 'awaiting_payment')
+      .eq('status', 'awaiting payment')
       .not('checkout_request_id', 'is', null) // Only orders that had STK push sent
       .lt('created_at', oneMinuteAgo)
 
@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
     const { error: updateError } = await supabase
       .from('orders')
       .update({ 
-        status: 'payment_failed',
+        status: 'payment failed',
         updated_at: new Date().toISOString()
       })
       .in('id', orderIds)
@@ -70,13 +70,13 @@ Deno.serve(async (req) => {
 
     // Log the updated orders for audit purposes
     for (const order of expiredOrders) {
-      console.log(`Order ${order.id} (${order.customer_name}) marked as payment_failed - STK push timeout`)
+      console.log(`Order ${order.id} (${order.customer_name}) marked as payment failed - STK push timeout`)
     }
 
     return new Response(
       JSON.stringify({ 
         success: true, 
-        message: `Updated ${expiredOrders.length} expired orders to payment_failed status`,
+        message: `Updated ${expiredOrders.length} expired orders to payment failed status`,
         updatedOrders: expiredOrders.length,
         checkedAt: new Date().toISOString()
       }),
