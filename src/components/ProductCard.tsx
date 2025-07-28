@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link, Copy } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
-import { supabase } from "@/integrations/supabase/client";
+import { useProductImages } from "@/hooks/useProductImages";
 import { useNavigate } from "react-router-dom";
 
 interface Product {
@@ -26,20 +26,11 @@ const ProductCard = ({ product, isAffiliate, affiliateCode }: ProductCardProps) 
   const { toast } = useToast();
   const { addItem } = useCart();
   const navigate = useNavigate();
+  const { primaryImage, getImageUrl } = useProductImages(product.id);
 
   const discountedPrice = product.discount_percentage
     ? product.price * (1 - product.discount_percentage / 100)
     : product.price;
-
-  const getImageUrl = (imagePath: string | null) => {
-    if (!imagePath) return null;
-    
-    const { data } = supabase.storage
-      .from('product-images')
-      .getPublicUrl(imagePath);
-    
-    return data.publicUrl;
-  };
 
   const handleCopyAffiliateLink = async () => {
     if (!affiliateCode) return;
@@ -92,10 +83,10 @@ const ProductCard = ({ product, isAffiliate, affiliateCode }: ProductCardProps) 
     <Card className="group overflow-hidden transition-all hover:shadow-lg">
       <CardContent className="p-0">
         <div className="relative aspect-square overflow-hidden cursor-pointer" onClick={handleProductClick}>
-          {product.image_url ? (
+          {primaryImage ? (
             <img
-              src={getImageUrl(product.image_url) || ''}
-              alt={product.name}
+              src={getImageUrl(primaryImage.image_url)}
+              alt={primaryImage.alt_text || product.name}
               className="w-full h-full object-cover transition-transform group-hover:scale-105"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;

@@ -17,6 +17,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import MultipleImageUpload, { type ProductImage } from "@/components/admin/MultipleImageUpload";
 import { Plus, Edit, Trash2, Package, ShoppingBag, Users, DollarSign, Check, X, Upload, Video, Image as ImageIcon, ChevronDown, Menu, AlertTriangle, Database } from "lucide-react";
 
 interface Product {
@@ -121,9 +122,7 @@ const AdminPanel = () => {
     discount_percentage: '',
   });
   
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+  const [productImages, setProductImages] = useState<ProductImage[]>([]);
   const [editingProduct, setEditingProduct] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<AdminSection>('products');
@@ -364,26 +363,53 @@ const AdminPanel = () => {
     }
   };
 
-  const handleImageUpload = async (productId: string): Promise<string | null> => {
-    if (!selectedImage) return null;
+  const uploadProductImages = async (productId: string): Promise<boolean> => {
+    if (productImages.length === 0) return true;
 
-    const fileExt = selectedImage.name.split('.').pop();
-    const fileName = `${productId}.${fileExt}`;
-    const filePath = `products/${fileName}`;
+    try {
+      const uploadPromises = productImages.map(async (image, index) => {
+        if (image.file && !image.uploaded) {
+          const fileExt = image.file.name.split('.').pop();
+          const fileName = `${productId}_${index}_${Date.now()}.${fileExt}`;
+          const filePath = `products/${fileName}`;
 
-    const { error: uploadError } = await supabase.storage
-      .from('product-images')
-      .upload(filePath, selectedImage, {
-        cacheControl: '3600',
-        upsert: true,
+          const { error: uploadError } = await supabase.storage
+            .from('product-images')
+            .upload(filePath, image.file, {
+              cacheControl: '3600',
+              upsert: true,
+            });
+
+          if (uploadError) {
+            console.error('Error uploading image:', uploadError);
+            return false;
+          }
+
+          // Save to product_images table
+          const { error: dbError } = await supabase
+            .from('product_images')
+            .insert({
+              product_id: productId,
+              image_url: filePath,
+              alt_text: image.alt_text,
+              display_order: image.display_order,
+              is_primary: image.is_primary,
+            });
+
+          if (dbError) {
+            console.error('Error saving image to database:', dbError);
+            return false;
+          }
+        }
+        return true;
       });
 
-    if (uploadError) {
-      console.error('Error uploading image:', uploadError);
-      return null;
+      const results = await Promise.all(uploadPromises);
+      return results.every(result => result);
+    } catch (error) {
+      console.error('Error uploading images:', error);
+      return false;
     }
-
-    return filePath;
   };
 
   const handleProductSubmit = async (e: React.FormEvent) => {
@@ -422,16 +448,16 @@ const AdminPanel = () => {
         productId = data.id;
       }
 
-      // Upload image if selected
-      if (selectedImage && productId) {
-        const imagePath = await handleImageUpload(productId);
+      // Upload images if any
+      if (productId && productImages.length > 0) {
+        const uploadSuccess = await uploadProductImages(productId);
         
-        if (imagePath) {
-          // Update product with image path
-          await supabase
-            .from('products')
-            .update({ image_url: imagePath })
-            .eq('id', productId);
+        if (!uploadSuccess) {
+          toast({
+            title: "Warning",
+            description: "Product created but some images failed to upload.",
+            variant: "destructive",
+          });
         }
       }
 
@@ -449,8 +475,7 @@ const AdminPanel = () => {
         is_featured: false,
         discount_percentage: '',
       });
-      setSelectedImage(null);
-      setImagePreview(null);
+      setProductImages([]);
       setEditingProduct(null);
       setDialogOpen(false);
       fetchProducts();
@@ -634,19 +659,6 @@ const AdminPanel = () => {
     }
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedImage(file);
-      
-      // Create preview URL
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const getImageUrl = (imagePath: string | null) => {
     if (!imagePath) return null;
@@ -1121,14 +1133,13 @@ const AdminPanel = () => {
                           is_featured: false,
                           discount_percentage: '',
                         });
-                        setSelectedImage(null);
-                        setImagePreview(null);
+                        setProductImages([]);
                       }}>
                         <Plus className="h-4 w-4 mr-2" />
                         Add Product
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-md">
+                    <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
                       <DialogHeader>
                         <DialogTitle>{editingProduct ? 'Edit Product' : 'Add New Product'}</DialogTitle>
                         <DialogDescription>
@@ -1194,20 +1205,11 @@ const AdminPanel = () => {
                           </Select>
                         </div>
                         <div>
-                          <Label htmlFor="image">Product Image</Label>
-                          <Input
-                            id="image"
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageChange}
+                          <MultipleImageUpload
+                            productId={editingProduct || undefined}
+                            onImagesChange={setProductImages}
+                            existingImages={productImages}
                           />
-                          {imagePreview && (
-                            <img 
-                              src={imagePreview} 
-                              alt="Preview" 
-                              className="mt-2 w-20 h-20 object-cover rounded"
-                            />
-                          )}
                         </div>
                         <div>
                           <Label htmlFor="discount">Discount %</Label>
