@@ -60,8 +60,8 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center space-x-2">
                 <Mail size={16} className="text-primary" />
-                <a href="mailto:info@edensneakers.co.ke" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  info@edensneakers.co.ke
+                <a href="mailto:info@sneakerstore.co.ke" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  info@sneakerstore.co.ke
                 </a>
               </li>
               <li className="flex items-center space-x-2">
