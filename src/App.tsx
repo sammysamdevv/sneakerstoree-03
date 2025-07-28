@@ -29,9 +29,13 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/products" element={<Products />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/sign-in" element={<Auth />} />
+            <Route path="/sign-up" element={<Auth />} />
             <Route path="/admin" element={<AdminPanel />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/affiliate" element={<Dashboard />} />
+            <Route path="/affiliate/wallet" element={<Dashboard />} />
             <Route path="/category/:slug" element={<CategoryPage />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

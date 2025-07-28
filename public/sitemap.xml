@@ -16,12 +16,48 @@
     <priority>0.9</priority>
   </url>
   
-  <!-- Auth page -->
+  <!-- Auth pages -->
   <url>
     <loc>https://sneakerstore.co.ke/auth</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://sneakerstore.co.ke/sign-in</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://sneakerstore.co.ke/sign-up</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Dashboard and affiliate pages -->
+  <url>
+    <loc>https://sneakerstore.co.ke/dashboard</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://sneakerstore.co.ke/affiliate</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://sneakerstore.co.ke/affiliate/wallet</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
   </url>
   
   <!-- Category pages - Women -->
