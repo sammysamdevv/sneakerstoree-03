@@ -50,7 +50,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Check if commission already exists
+    // Check if commission already exists for this order
     const { data: existingCommission } = await supabase
       .from('affiliate_commissions')
       .select('id')
@@ -61,6 +61,47 @@ Deno.serve(async (req) => {
       console.log('Commission already exists for order:', order_id);
       return new Response(
         JSON.stringify({ message: 'Commission already exists for this order' }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Check if this customer has already purchased products through this affiliate before
+    // Get all products in this order
+    const { data: orderItems, error: orderItemsError } = await supabase
+      .from('order_items')
+      .select('product_id')
+      .eq('order_id', order_id);
+
+    if (orderItemsError) {
+      console.error('Error fetching order items:', orderItemsError);
+      return new Response(
+        JSON.stringify({ error: 'Failed to fetch order items' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Check if customer has previously purchased any of these products through this affiliate
+    const productIds = orderItems.map(item => item.product_id);
+    
+    const { data: previousPurchases, error: previousPurchasesError } = await supabase
+      .from('orders')
+      .select(`
+        id,
+        order_items!inner(product_id)
+      `)
+      .eq('user_id', order.user_id)
+      .eq('affiliate_id', order.affiliate_id)
+      .neq('id', order_id)
+      .in('order_items.product_id', productIds);
+
+    if (previousPurchasesError) {
+      console.error('Error checking previous purchases:', previousPurchasesError);
+    } else if (previousPurchases && previousPurchases.length > 0) {
+      console.log('Customer has already purchased products through this affiliate, no commission due');
+      return new Response(
+        JSON.stringify({ 
+          message: 'Customer has already purchased these products through this affiliate. No commission due.' 
+        }),
         { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }

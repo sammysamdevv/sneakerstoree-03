@@ -56,14 +56,38 @@ Deno.serve(async (req) => {
             .single();
 
           if (!existingCommission) {
-            missingCommissions.push({
-              affiliate_id: order.affiliate_id,
-              order_id: order.id,
-              commission_amount: order.total_amount * commission_rate,
-              status: order.status === 'delivered' ? 'approved' : 'pending',
-              created_at: order.created_at,
-              approved_at: order.status === 'delivered' ? new Date().toISOString() : null
-            });
+            // Check if this customer has already purchased products through this affiliate before
+            const { data: orderItems } = await supabase
+              .from('order_items')
+              .select('product_id')
+              .eq('order_id', order.id);
+
+            if (orderItems && orderItems.length > 0) {
+              const productIds = orderItems.map(item => item.product_id);
+              
+              const { data: previousPurchases } = await supabase
+                .from('orders')
+                .select(`
+                  id,
+                  order_items!inner(product_id)
+                `)
+                .eq('user_id', order.user_id)
+                .eq('affiliate_id', order.affiliate_id)
+                .neq('id', order.id)
+                .in('order_items.product_id', productIds);
+
+              // Only create commission if customer hasn't purchased these products through this affiliate before
+              if (!previousPurchases || previousPurchases.length === 0) {
+                missingCommissions.push({
+                  affiliate_id: order.affiliate_id,
+                  order_id: order.id,
+                  commission_amount: order.total_amount * commission_rate,
+                  status: order.status === 'delivered' ? 'approved' : 'pending',
+                  created_at: order.created_at,
+                  approved_at: order.status === 'delivered' ? new Date().toISOString() : null
+                });
+              }
+            }
           }
         }
 
@@ -189,6 +213,37 @@ Deno.serve(async (req) => {
             result = { action: 'no_change', commission: existingCommission };
           }
         } else {
+          // Check if this customer has already purchased products through this affiliate before
+          const { data: orderItems } = await supabase
+            .from('order_items')
+            .select('product_id')
+            .eq('order_id', order_id);
+
+          if (orderItems && orderItems.length > 0) {
+            const productIds = orderItems.map(item => item.product_id);
+            
+            const { data: previousPurchases } = await supabase
+              .from('orders')
+              .select(`
+                id,
+                order_items!inner(product_id)
+              `)
+              .eq('user_id', order.user_id)
+              .eq('affiliate_id', order.affiliate_id)
+              .neq('id', order_id)
+              .in('order_items.product_id', productIds);
+
+            if (previousPurchases && previousPurchases.length > 0) {
+              return new Response(
+                JSON.stringify({
+                  message: 'Customer has already purchased these products through this affiliate. No commission due.',
+                  result: { action: 'no_commission_due', commission: null }
+                }),
+                { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+              );
+            }
+          }
+
           // Create new commission
           const commissionAmount = order.total_amount * commission_rate;
           const commissionStatus = order.status === 'delivered' ? 'approved' : 'pending';
