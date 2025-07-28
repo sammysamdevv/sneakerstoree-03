@@ -43,6 +43,7 @@ interface Order {
   created_at: string;
   delivery_address: string;
   affiliate_id?: string;
+  mpesa_receipt_number?: string;
   profiles?: { full_name: string; affiliate_code: string };
 }
 
@@ -1333,21 +1334,26 @@ const AdminPanel = () => {
                 <div className="space-y-4">
                   {orders.map((order) => (
                     <div key={order.id} className="p-4 border rounded-lg">
-                      <div className="flex justify-between items-start mb-2">
-                         <div>
-                           <h3 className="font-semibold">Order #{order.id.slice(0, 8)}</h3>
-                           <p className="text-sm text-muted-foreground">
-                             {order.customer_name} • {order.customer_phone}
-                           </p>
-                           <p className="text-sm text-muted-foreground">
-                             {order.delivery_address}
-                           </p>
-                           {order.profiles?.affiliate_code && (
-                             <p className="text-sm text-muted-foreground">
-                               Affiliate: {order.profiles.full_name} ({order.profiles.affiliate_code})
-                             </p>
-                           )}
-                         </div>
+                       <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h3 className="font-semibold">Order #{order.id.slice(0, 8)}</h3>
+                            <p className="text-sm text-muted-foreground">
+                              {order.customer_name} • {order.customer_phone}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {order.delivery_address}
+                            </p>
+                            {order.mpesa_receipt_number && (
+                              <p className="text-sm font-medium text-green-600">
+                                M-Pesa Receipt: {order.mpesa_receipt_number}
+                              </p>
+                            )}
+                            {order.profiles?.affiliate_code && (
+                              <p className="text-sm text-muted-foreground">
+                                Affiliate: {order.profiles.full_name} ({order.profiles.affiliate_code})
+                              </p>
+                            )}
+                          </div>
                         <div className="text-right">
                           <p className="font-bold">KSh {order.total_amount.toLocaleString()}</p>
                           <p className="text-sm text-muted-foreground">
@@ -1355,46 +1361,69 @@ const AdminPanel = () => {
                           </p>
                         </div>
                       </div>
-                       <div className="flex items-center justify-between">
-                         <Badge 
-                           variant={
-                             order.status === 'delivered' ? 'default' : 
-                             order.status === 'pending' ? 'destructive' :
-                             order.status === 'confirmed' ? 'secondary' : 'outline'
-                           }
-                         >
-                           {order.status === 'pending' ? 'Awaiting Confirmation' : order.status}
-                         </Badge>
-                         <div className="flex space-x-2">
-                           {order.status === 'pending' && (
-                             <Button
-                               size="sm"
-                               onClick={() => handleOrderStatusUpdate(order.id, 'confirmed')}
-                               className="bg-green-600 hover:bg-green-700"
-                             >
-                               <Check className="h-4 w-4 mr-1" />
-                               Confirm Order
-                             </Button>
-                           )}
-                           {order.status === 'confirmed' && (
-                             <Button
-                               size="sm"
-                               onClick={() => handleOrderStatusUpdate(order.id, 'delivered')}
-                             >
-                               <Check className="h-4 w-4 mr-1" />
-                               Mark Delivered
-                             </Button>
-                           )}
-                           <Button
-                             variant="outline"
-                             size="sm"
-                             onClick={() => handleOrderStatusUpdate(order.id, 'cancelled')}
-                           >
-                             <X className="h-4 w-4 mr-1" />
-                             Cancel
-                           </Button>
-                         </div>
-                       </div>
+                        <div className="flex items-center justify-between">
+                          <Badge 
+                            variant={
+                              order.status === 'delivered' ? 'default' : 
+                              order.status === 'pending' ? 'destructive' :
+                              order.status === 'waiting_shipment' ? 'secondary' :
+                              order.status === 'confirmed' ? 'secondary' : 'outline'
+                            }
+                          >
+                            {order.status === 'pending' ? 'Awaiting Payment' : 
+                             order.status === 'waiting_shipment' ? 'Paid - Ready to Ship' : 
+                             order.status === 'shipped' ? 'Shipped' :
+                             order.status}
+                          </Badge>
+                          <div className="flex space-x-2">
+                            {order.status === 'pending' && (
+                              <Button
+                                size="sm"
+                                onClick={() => handleOrderStatusUpdate(order.id, 'confirmed')}
+                                className="bg-green-600 hover:bg-green-700"
+                              >
+                                <Check className="h-4 w-4 mr-1" />
+                                Confirm Order
+                              </Button>
+                            )}
+                            {order.status === 'waiting_shipment' && (
+                              <Button
+                                size="sm"
+                                onClick={() => handleOrderStatusUpdate(order.id, 'shipped')}
+                                className="bg-blue-600 hover:bg-blue-700"
+                              >
+                                <Package className="h-4 w-4 mr-1" />
+                                Confirm Shipment
+                              </Button>
+                            )}
+                            {order.status === 'shipped' && (
+                              <Button
+                                size="sm"
+                                onClick={() => handleOrderStatusUpdate(order.id, 'delivered')}
+                              >
+                                <Check className="h-4 w-4 mr-1" />
+                                Mark Delivered
+                              </Button>
+                            )}
+                            {order.status === 'confirmed' && (
+                              <Button
+                                size="sm"
+                                onClick={() => handleOrderStatusUpdate(order.id, 'delivered')}
+                              >
+                                <Check className="h-4 w-4 mr-1" />
+                                Mark Delivered
+                              </Button>
+                            )}
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleOrderStatusUpdate(order.id, 'cancelled')}
+                            >
+                              <X className="h-4 w-4 mr-1" />
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
                     </div>
                   ))}
                 </div>

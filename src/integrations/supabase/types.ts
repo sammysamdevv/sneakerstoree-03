@@ -388,6 +388,7 @@ export type Database = {
           customer_phone: string
           delivery_address: string
           id: string
+          mpesa_receipt_number: string | null
           status: string
           total_amount: number
           updated_at: string
@@ -402,6 +403,7 @@ export type Database = {
           customer_phone: string
           delivery_address: string
           id?: string
+          mpesa_receipt_number?: string | null
           status?: string
           total_amount: number
           updated_at?: string
@@ -416,6 +418,7 @@ export type Database = {
           customer_phone?: string
           delivery_address?: string
           id?: string
+          mpesa_receipt_number?: string | null
           status?: string
           total_amount?: number
           updated_at?: string

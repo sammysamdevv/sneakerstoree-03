@@ -33,6 +33,17 @@ Deno.serve(async (req) => {
     );
 
     if (ResultCode === 0) {
+      // Extract M-Pesa receipt number from callback metadata
+      const callbackMetadata = stkCallback.CallbackMetadata;
+      let mpesaReceiptNumber = null;
+      
+      if (callbackMetadata && callbackMetadata.Item) {
+        const receiptItem = callbackMetadata.Item.find(item => item.Name === 'MpesaReceiptNumber');
+        mpesaReceiptNumber = receiptItem ? receiptItem.Value : null;
+      }
+
+      console.log('M-Pesa Receipt Number:', mpesaReceiptNumber);
+
       // Payment successful - find the order using checkout request ID
       const { data: order, error: orderError } = await supabase
         .from('orders')
@@ -46,11 +57,12 @@ Deno.serve(async (req) => {
         return new Response('OK', { status: 200, headers: corsHeaders });
       }
 
-      // Update order status to waiting shipment
+      // Update order status to waiting shipment and store M-Pesa receipt
       const { error: updateError } = await supabase
         .from('orders')
         .update({ 
           status: 'waiting_shipment',
+          mpesa_receipt_number: mpesaReceiptNumber,
           updated_at: new Date().toISOString()
         })
         .eq('id', order.id);
