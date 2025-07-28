@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, CreditCard, Smartphone } from "lucide-react";
+import { Loader2, Smartphone } from "lucide-react";
 
 const Checkout = () => {
   const { items, totalAmount, clearCart } = useCart();
@@ -18,7 +18,6 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'manual'>('mpesa');
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
     phone: "",
@@ -52,7 +51,10 @@ const Checkout = () => {
         if (data.checkoutRequestId) {
           await supabase
             .from('orders')
-            .update({ checkout_request_id: data.checkoutRequestId })
+            .update({ 
+              checkout_request_id: data.checkoutRequestId,
+              status: 'awaiting_payment'
+            })
             .eq('id', orderId);
         }
 
@@ -152,31 +154,24 @@ const Checkout = () => {
         sessionStorage.removeItem('affiliate_referral');
       }
 
-      // Handle payment based on selected method
-      if (paymentMethod === 'mpesa') {
-        const paymentSuccess = await handleMpesaPayment(order.id);
-        if (paymentSuccess) {
-          toast({
-            title: "Order placed successfully!",
-            description: "M-Pesa payment initiated. Complete the payment on your phone.",
-          });
-        } else {
-          // If M-Pesa fails, still allow manual payment
-          toast({
-            title: "Order placed with manual payment",
-            description: "M-Pesa failed but your order is saved. Admin will contact you for payment.",
-          });
-        }
-      } else {
+      // Only handle M-Pesa payment
+      const paymentSuccess = await handleMpesaPayment(order.id);
+      if (paymentSuccess) {
         toast({
           title: "Order placed successfully!",
-          description: "Your order is pending admin confirmation. Payment will be handled upon confirmation.",
+          description: "M-Pesa payment initiated. Complete the payment on your phone.",
         });
+        
+        // Clear cart and navigate
+        clearCart();
+        navigate("/dashboard");
+      } else {
+        // If M-Pesa fails, delete the order since we no longer support manual payment
+        await supabase.from('orders').delete().eq('id', order.id);
+        await supabase.from('order_items').delete().eq('order_id', order.id);
+        
+        throw new Error('Payment failed. Please try again with a valid M-Pesa number.');
       }
-
-      // Clear cart and navigate
-      clearCart();
-      navigate("/dashboard");
     } catch (error: any) {
       toast({
         title: "Error placing order",
@@ -247,7 +242,7 @@ const Checkout = () => {
             {/* Customer Information */}
             <Card>
               <CardHeader>
-                <CardTitle>Delivery Information</CardTitle>
+                <CardTitle>Delivery Information & Payment</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -261,7 +256,7 @@ const Checkout = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="phone">Phone Number</Label>
+                    <Label htmlFor="phone">Phone Number (M-Pesa)</Label>
                     <Input
                       id="phone"
                       type="tel"
@@ -281,73 +276,33 @@ const Checkout = () => {
                     />
                   </div>
                    
-                   <div className="pt-4">
-                     <h3 className="font-semibold mb-3">Payment Method</h3>
-                     <div className="space-y-3">
-                       <div className="flex items-center space-x-2">
-                         <input
-                           type="radio"
-                           id="mpesa"
-                           name="payment"
-                           value="mpesa"
-                           checked={paymentMethod === 'mpesa'}
-                           onChange={(e) => setPaymentMethod(e.target.value as 'mpesa')}
-                           className="text-primary"
-                         />
-                         <label htmlFor="mpesa" className="flex items-center cursor-pointer">
-                           <Smartphone className="mr-2 h-4 w-4 text-green-600" />
-                           M-Pesa Payment (Instant)
-                         </label>
-                       </div>
-                       <div className="flex items-center space-x-2">
-                         <input
-                           type="radio"
-                           id="manual"
-                           name="payment"
-                           value="manual"
-                           checked={paymentMethod === 'manual'}
-                           onChange={(e) => setPaymentMethod(e.target.value as 'manual')}
-                           className="text-primary"
-                         />
-                         <label htmlFor="manual" className="flex items-center cursor-pointer">
-                           <CreditCard className="mr-2 h-4 w-4" />
-                           Manual Payment (Admin Review)
-                         </label>
-                       </div>
-                     </div>
-                     
-                     {paymentMethod === 'mpesa' && (
-                       <div className="mt-3 p-3 bg-green-50 rounded-lg border border-green-200">
-                         <p className="text-sm text-green-800">
-                           📱 You'll receive an M-Pesa STK push notification on your phone to complete payment.
-                         </p>
-                       </div>
-                     )}
-                     
-                     {paymentMethod === 'manual' && (
-                       <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                         <p className="text-sm text-blue-800">
-                           📋 Your order will be reviewed by admin. You'll be contacted with payment instructions.
-                         </p>
-                       </div>
-                     )}
-                   </div>
+                  <div className="pt-4">
+                    <h3 className="font-semibold mb-3">Payment Method</h3>
+                    <div className="p-3 bg-green-50 rounded-lg border border-green-200">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Smartphone className="h-5 w-5 text-green-600" />
+                        <span className="font-medium text-green-800">M-Pesa Payment (Instant)</span>
+                      </div>
+                      <p className="text-sm text-green-800">
+                        📱 You'll receive an M-Pesa STK push notification on your phone to complete payment.
+                        Payment is required to complete your order.
+                      </p>
+                    </div>
+                  </div>
                    
-                    <Button type="submit" className="w-full" disabled={loading}>
-                      {loading ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Processing Order...
-                        </>
-                      ) : paymentMethod === 'mpesa' ? (
-                        <>
-                          <Smartphone className="mr-2 h-4 w-4" />
-                          Place Order & Pay with M-Pesa
-                        </>
-                      ) : (
-                        "Place Order for Admin Review"
-                      )}
-                    </Button>
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Processing Order...
+                      </>
+                    ) : (
+                      <>
+                        <Smartphone className="mr-2 h-4 w-4" />
+                        Place Order & Pay with M-Pesa
+                      </>
+                    )}
+                  </Button>
                 </form>
               </CardContent>
             </Card>
