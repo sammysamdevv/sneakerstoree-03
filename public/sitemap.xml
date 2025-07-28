@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <!-- Homepage -->
   <url>
     <loc>https://sneakerstore.co.ke/</loc>
@@ -21,10 +21,10 @@
     <loc>https://sneakerstore.co.ke/auth</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.5</priority>
   </url>
   
-  <!-- Category pages -->
+  <!-- Category pages - Women -->
   <url>
     <loc>https://sneakerstore.co.ke/category/women-shoes</loc>
     <lastmod>2025-01-28</lastmod>
@@ -33,31 +33,10 @@
   </url>
   
   <url>
-    <loc>https://sneakerstore.co.ke/category/men-shoes</loc>
-    <lastmod>2025-01-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://sneakerstore.co.ke/category/unisex-shoes</loc>
-    <lastmod>2025-01-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://sneakerstore.co.ke/category/sandals</loc>
-    <lastmod>2025-01-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
     <loc>https://sneakerstore.co.ke/category/women-sneakers</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   
   <url>
@@ -74,18 +53,12 @@
     <priority>0.7</priority>
   </url>
   
+  <!-- Category pages - Men -->
   <url>
-    <loc>https://sneakerstore.co.ke/category/jordans</loc>
+    <loc>https://sneakerstore.co.ke/category/men-shoes</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://sneakerstore.co.ke/category/nike</loc>
-    <lastmod>2025-01-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   
   <url>
@@ -95,8 +68,60 @@
     <priority>0.7</priority>
   </url>
   
+  <!-- Category pages - Unisex -->
+  <url>
+    <loc>https://sneakerstore.co.ke/category/unisex-shoes</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://sneakerstore.co.ke/category/sandals</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
   <url>
     <loc>https://sneakerstore.co.ke/category/casual</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Brand pages -->
+  <url>
+    <loc>https://sneakerstore.co.ke/category/nike</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://sneakerstore.co.ke/category/jordans</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Additional popular categories -->
+  <url>
+    <loc>https://sneakerstore.co.ke/category/sneakers</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://sneakerstore.co.ke/category/boots</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://sneakerstore.co.ke/category/formal-shoes</loc>
     <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
