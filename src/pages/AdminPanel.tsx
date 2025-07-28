@@ -127,6 +127,7 @@ const AdminPanel = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<AdminSection>('products');
   const [isClearing, setIsClearing] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (isAdmin) {
@@ -415,6 +416,9 @@ const AdminPanel = () => {
   const handleProductSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (submitting) return; // Prevent double submissions
+    
+    setSubmitting(true);
     try {
       let productId = editingProduct;
       
@@ -485,6 +489,8 @@ const AdminPanel = () => {
         description: error.message,
         variant: "destructive",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -1230,8 +1236,8 @@ const AdminPanel = () => {
                           />
                           <Label htmlFor="featured">Featured Product</Label>
                         </div>
-                        <Button type="submit" className="w-full">
-                          {editingProduct ? 'Update Product' : 'Add Product'}
+                        <Button type="submit" className="w-full" disabled={submitting}>
+                          {submitting ? 'Processing...' : (editingProduct ? 'Update Product' : 'Add Product')}
                         </Button>
                       </form>
                     </DialogContent>

@@ -26,6 +26,7 @@ const ProductDetail = () => {
   const { addItem } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const { images, primaryImage, getImageUrl: getProductImageUrl } = useProductImages(id || '');
 
   const referralCode = searchParams.get('ref');
@@ -166,10 +167,10 @@ const ProductDetail = () => {
             <Card>
               <CardContent className="p-0">
                 <div className="relative aspect-square overflow-hidden">
-                  {primaryImage ? (
+                   {images.length > 0 ? (
                     <img
-                      src={getProductImageUrl(primaryImage.image_url)}
-                      alt={primaryImage.alt_text || product.name}
+                      src={getProductImageUrl(images[selectedImageIndex]?.image_url)}
+                      alt={images[selectedImageIndex]?.alt_text || product.name}
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
@@ -204,8 +205,9 @@ const ProductDetail = () => {
                   <div 
                     key={image.id} 
                     className={`relative aspect-square overflow-hidden rounded-lg cursor-pointer border-2 transition-colors ${
-                      image.is_primary ? 'border-primary' : 'border-muted hover:border-muted-foreground'
+                      selectedImageIndex === index ? 'border-primary' : 'border-muted hover:border-muted-foreground'
                     }`}
+                    onClick={() => setSelectedImageIndex(index)}
                   >
                     <img
                       src={getProductImageUrl(image.image_url)}
