@@ -117,6 +117,33 @@ const Header = () => {
               )}
             </div>
           ))}
+          
+          {/* User navigation items */}
+          {user && (
+            <Link
+              to="/dashboard"
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              Dashboard
+            </Link>
+          )}
+          {user && isAdmin && (
+            <Link
+              to="/admin"
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              Admin Panel
+            </Link>
+          )}
+          {user && (
+            <Button 
+              variant="ghost" 
+              onClick={handleSignOut}
+              className="text-foreground hover:text-primary transition-colors h-auto p-0 font-normal"
+            >
+              Sign Out
+            </Button>
+          )}
         </nav>
 
         {/* Mobile Navigation */}
