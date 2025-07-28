@@ -8,16 +8,18 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">SneakerStore</h3>
+            <div className="flex items-center space-x-2">
+              <h3 className="text-lg font-semibold text-foreground">SneakerStore</h3>
+              <img 
+                src="/lovable-uploads/4e022f97-ca5f-4eb1-8373-44a8fd7819fe.png" 
+                alt="SneakerStore Logo" 
+                className="h-6 w-6"
+              />
+            </div>
             <p className="text-sm text-muted-foreground">
               Your premier destination for authentic sneakers and streetwear. 
               Discover the latest drops and exclusive collections.
             </p>
-            <div className="flex space-x-4">
-              <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                <span className="text-primary font-bold text-sm">S</span>
-              </div>
-            </div>
           </div>
 
           {/* Quick Links */}

@@ -66,8 +66,15 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center space-x-2">
-          <span className="text-2xl font-bold text-primary">Sneaker Store</span>
+        <Link to="/" className="flex items-center space-x-3">
+          <div className="flex flex-col items-center">
+            <span className="text-xl font-bold text-primary">Sneaker</span>
+            <img 
+              src="/lovable-uploads/4e022f97-ca5f-4eb1-8373-44a8fd7819fe.png" 
+              alt="SneakerStore Logo" 
+              className="h-8 w-8"
+            />
+          </div>
         </Link>
 
         {/* Desktop Navigation */}
