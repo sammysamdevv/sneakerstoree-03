@@ -21,5 +21,11 @@ verify_jwt = false
 [functions.daily-tasks]
 verify_jwt = false
 
+[functions.order-timeout-checker]
+verify_jwt = false
+
 [functions.mpesa-callback]
 verify_jwt = false
+
+[functions.order-timeout-checker.cron]
+schedule = "* * * * *"  # Every minute
