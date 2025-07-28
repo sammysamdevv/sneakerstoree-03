@@ -11,9 +11,9 @@ const Products = () => {
   return (
     <>
       <SEOHead 
-        title={searchQuery ? `Search Results for "${searchQuery}" | Sneaker Store` : "All Products | Sneaker Store"}
-        description={searchQuery ? `Find shoes matching "${searchQuery}" at Sneaker Store Kenya.` : "Browse all shoes and footwear at Sneaker Store. Premium sneakers, heels, sandals for men, women, and unisex styles."}
-        keywords={searchQuery ? `${searchQuery}, shoes Kenya, sneakers Kenya` : "all products, shoes Kenya, sneakers Kenya, footwear Kenya, online shoe store"}
+        title={searchQuery ? `${searchQuery} - Buy Online Kenya | Eden Sneakers` : "All Sneakers & Shoes Online Kenya - Authentic & Affordable | Eden Sneakers"}
+        description={searchQuery ? `Find authentic ${searchQuery} online in Kenya! Best prices, fast delivery to Nairobi, Mombasa, Kisumu. Original brands guaranteed.` : "Browse all authentic sneakers & shoes online in Kenya! Jordans, Nike, designer sneakers for men & women. Affordable prices, fast delivery nationwide."}
+        keywords={searchQuery ? `${searchQuery} Kenya, buy ${searchQuery} online Kenya, ${searchQuery} Nairobi, ${searchQuery} Mombasa, affordable ${searchQuery} Kenya, original ${searchQuery} Kenya` : "all sneakers Kenya, buy sneakers online Kenya, sneakers for men Kenya, sneakers for women Kenya, Jordans Kenya, Nike Kenya, shoes online Kenya, sneaker store Kenya, affordable sneakers Kenya"}
         canonicalUrl="/products"
       />
       <div className="min-h-screen bg-background">

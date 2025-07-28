@@ -27,9 +27,9 @@ const CategoryPage = () => {
   return (
     <>
       <SEOHead 
-        title={`${categoryName} | Sneaker Store`}
-        description={`Shop premium ${categoryName.toLowerCase()} at Sneaker Store Kenya. Quality footwear with great prices and fast delivery.`}
-        keywords={`${categoryName.toLowerCase()}, shoes Kenya, sneakers Kenya, ${slug}, footwear Kenya`}
+        title={`Buy ${categoryName} Online Kenya - Authentic & Affordable | Eden Sneakers`}
+        description={`Shop original ${categoryName.toLowerCase()} online in Kenya! Authentic brands, affordable prices, fast delivery to Nairobi, Mombasa, Kisumu. Best ${categoryName.toLowerCase()} deals in Kenya.`}
+        keywords={`${categoryName.toLowerCase()} Kenya, buy ${categoryName.toLowerCase()} online Kenya, affordable ${categoryName.toLowerCase()} Kenya, original ${categoryName.toLowerCase()} Kenya, ${categoryName.toLowerCase()} Nairobi, ${categoryName.toLowerCase()} Mombasa, ${categoryName.toLowerCase()} Kisumu, cheap ${categoryName.toLowerCase()} Kenya, best ${categoryName.toLowerCase()} Kenya, ${categoryName.toLowerCase()} sale Kenya, authentic ${categoryName.toLowerCase()} Kenya`}
         canonicalUrl={`/category/${slug}`}
       />
       <div className="min-h-screen bg-background">

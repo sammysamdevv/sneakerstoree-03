@@ -22,9 +22,9 @@ const Index = () => {
   return (
     <>
       <SEOHead 
-        title="Eden Sneakers - Premium Shoes & Footwear | edensneakers.co.ke"
-        description="Shop premium sneakers, heels, sandals and more at Eden Sneakers Kenya. Browse our collection of Nike, Jordans, and quality footwear for men, women, and unisex styles."
-        keywords="sneakers Kenya, shoes Kenya, footwear Kenya, Nike Kenya, Jordans Kenya, premium shoes, online shoe store Kenya"
+        title="Buy Sneakers Online Kenya - Original Jordans & Nike | Eden Sneakers"
+        description="🔥 Buy authentic sneakers online in Kenya! Original Jordans, Nike, designer sneakers for men & women. Affordable prices, fast delivery to Nairobi, Mombasa, Kisumu & all Kenya. Top sneaker deals!"
+        keywords="buy sneakers online Kenya, sneakers for men Kenya, sneakers for women Kenya, affordable sneakers Kenya, original Jordans Kenya, authentic Jordans Kenya, cheap sneakers Kenya, designer sneakers Kenya, best sneakers Kenya, sneakers sale Kenya, sneakers Nairobi, Jordans Nairobi, sneakers Mombasa, sneakers Kisumu, sneaker store Kenya, Eden Sneakers Kenya"
         canonicalUrl="/"
       />
       <div className="min-h-screen bg-background">
