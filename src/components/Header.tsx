@@ -92,6 +92,31 @@ const Header = () => {
           >
             All Products
           </Link>
+          {user && (
+            <Link
+              to="/dashboard"
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              Dashboard
+            </Link>
+          )}
+          {user && isAdmin && (
+            <Link
+              to="/admin"
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              Admin Panel
+            </Link>
+          )}
+          {user && (
+            <Button 
+              variant="ghost" 
+              onClick={handleSignOut}
+              className="text-foreground hover:text-primary transition-colors h-auto p-0 font-normal"
+            >
+              Sign Out
+            </Button>
+          )}
           {categories.map((category) => (
             <div key={category.name} className="relative group">
               <Link
