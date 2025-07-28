@@ -381,6 +381,7 @@ export type Database = {
       orders: {
         Row: {
           affiliate_id: string | null
+          checkout_request_id: string | null
           commission_amount: number | null
           created_at: string
           customer_name: string
@@ -394,6 +395,7 @@ export type Database = {
         }
         Insert: {
           affiliate_id?: string | null
+          checkout_request_id?: string | null
           commission_amount?: number | null
           created_at?: string
           customer_name: string
@@ -407,6 +409,7 @@ export type Database = {
         }
         Update: {
           affiliate_id?: string | null
+          checkout_request_id?: string | null
           commission_amount?: number | null
           created_at?: string
           customer_name?: string

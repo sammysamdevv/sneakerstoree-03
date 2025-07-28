@@ -33,24 +33,16 @@ Deno.serve(async (req) => {
     );
 
     if (ResultCode === 0) {
-      // Payment successful - find and update the order
-      // The CheckoutRequestID corresponds to the order ID we sent in the STK push
-      const orderId = CheckoutRequestID.replace('mock-checkout-', ''); // Handle mock responses
-      
-      // For real M-Pesa, the CheckoutRequestID is different, so we'll need to track it
-      // For now, let's assume the reference in STK push was the order ID
-      
-      // Find the order by ID or by searching recent pending orders
+      // Payment successful - find the order using checkout request ID
       const { data: order, error: orderError } = await supabase
         .from('orders')
         .select('*')
+        .eq('checkout_request_id', CheckoutRequestID)
         .eq('status', 'pending')
-        .order('created_at', { ascending: false })
-        .limit(1)
         .single();
 
       if (orderError || !order) {
-        console.log('Order not found for payment confirmation:', orderError);
+        console.log('Order not found for CheckoutRequestID:', CheckoutRequestID, orderError);
         return new Response('OK', { status: 200, headers: corsHeaders });
       }
 
