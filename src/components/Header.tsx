@@ -92,31 +92,6 @@ const Header = () => {
           >
             All Products
           </Link>
-          {user && (
-            <Link
-              to="/dashboard"
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              Dashboard
-            </Link>
-          )}
-          {user && isAdmin && (
-            <Link
-              to="/admin"
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              Admin Panel
-            </Link>
-          )}
-          {user && (
-            <Button 
-              variant="ghost" 
-              onClick={handleSignOut}
-              className="text-foreground hover:text-primary transition-colors h-auto p-0 font-normal"
-            >
-              Sign Out
-            </Button>
-          )}
           {categories.map((category) => (
             <div key={category.name} className="relative group">
               <Link
@@ -191,8 +166,45 @@ const Header = () => {
                       ))}
                     </div>
                   )}
-                </div>
-              ))}
+                 </div>
+               ))}
+               
+               {/* User-specific menu items */}
+               {user && (
+                 <>
+                   <div className="border-t pt-4 mt-4">
+                     <Link
+                       to="/dashboard"
+                       className="text-lg font-medium text-foreground hover:text-primary flex items-center space-x-2"
+                       onClick={() => setIsOpen(false)}
+                     >
+                       <User className="h-5 w-5" />
+                       <span>Dashboard</span>
+                     </Link>
+                     {isAdmin && (
+                       <Link
+                         to="/admin"
+                         className="text-lg font-medium text-foreground hover:text-primary flex items-center space-x-2 mt-4"
+                         onClick={() => setIsOpen(false)}
+                       >
+                         <User className="h-5 w-5" />
+                         <span>Admin Panel</span>
+                       </Link>
+                     )}
+                     <Button
+                       variant="ghost"
+                       onClick={() => {
+                         handleSignOut();
+                         setIsOpen(false);
+                       }}
+                       className="text-lg font-medium text-red-600 hover:text-red-700 flex items-center space-x-2 mt-4 h-auto p-0 justify-start"
+                     >
+                       <LogOut className="h-5 w-5" />
+                       <span>Sign Out</span>
+                     </Button>
+                   </div>
+                 </>
+               )}
             </nav>
           </SheetContent>
         </Sheet>
