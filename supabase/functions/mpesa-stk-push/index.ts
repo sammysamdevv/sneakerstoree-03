@@ -93,6 +93,21 @@ Deno.serve(async (req) => {
     const stkData = await stkResponse.json();
 
     if (stkData.ResponseCode === '0') {
+      // Store the checkout request ID mapping for callback tracking
+      const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2.52.1');
+      const supabase = createClient(
+        Deno.env.get('SUPABASE_URL') ?? '',
+        Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+      );
+
+      // Update order with checkout request ID for tracking
+      await supabase
+        .from('orders')
+        .update({ 
+          checkout_request_id: stkData.CheckoutRequestID || `mock-checkout-${Date.now()}`
+        })
+        .eq('id', reference);
+
       return new Response(
         JSON.stringify({
           success: true,
