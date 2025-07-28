@@ -68,10 +68,10 @@ const Header = () => {
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center space-x-3">
           <div className="flex flex-col items-center">
-            <span className="text-xl font-bold text-primary">Sneaker</span>
-            <img 
+            <span className="text-xl font-bold text-primary">Eden Sneakers</span>
+            <img
               src="/lovable-uploads/fc4c83df-0c8f-4dc1-b577-fda0d7537c33.png" 
-              alt="SneakerStore Logo" 
+              alt="Eden Sneakers Logo" 
               className="h-8 w-8"
             />
           </div>

@@ -22,8 +22,8 @@ const Index = () => {
   return (
     <>
       <SEOHead 
-        title="Sneaker Store - Premium Shoes & Footwear | sneakerstore.co.ke"
-        description="Shop premium sneakers, heels, sandals and more at Sneaker Store Kenya. Browse our collection of Nike, Jordans, and quality footwear for men, women, and unisex styles."
+        title="Eden Sneakers - Premium Shoes & Footwear | edensneakers.co.ke"
+        description="Shop premium sneakers, heels, sandals and more at Eden Sneakers Kenya. Browse our collection of Nike, Jordans, and quality footwear for men, women, and unisex styles."
         keywords="sneakers Kenya, shoes Kenya, footwear Kenya, Nike Kenya, Jordans Kenya, premium shoes, online shoe store Kenya"
         canonicalUrl="/"
       />

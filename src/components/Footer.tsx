@@ -9,10 +9,10 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <h3 className="text-lg font-semibold text-foreground">SneakerStore</h3>
+              <h3 className="text-lg font-semibold text-foreground">Eden Sneakers</h3>
               <img 
                 src="/lovable-uploads/fc4c83df-0c8f-4dc1-b577-fda0d7537c33.png" 
-                alt="SneakerStore Logo" 
+                alt="Eden Sneakers Logo" 
                 className="h-6 w-6"
               />
             </div>
@@ -60,8 +60,8 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center space-x-2">
                 <Mail size={16} className="text-primary" />
-                <a href="mailto:info@sneakerstore.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  info@sneakerstore.com
+                <a href="mailto:info@edensneakers.co.ke" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  info@edensneakers.co.ke
                 </a>
               </li>
               <li className="flex items-center space-x-2">
@@ -119,7 +119,7 @@ const Footer = () => {
         <div className="flex flex-col space-y-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-muted-foreground">
-              © 2024 SneakerStore. All rights reserved.
+              © 2024 Eden Sneakers. All rights reserved.
             </p>
             <div className="flex space-x-6">
               <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
