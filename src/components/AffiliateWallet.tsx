@@ -61,6 +61,7 @@ const AffiliateWallet = () => {
   const [mpesaPhone, setMpesaPhone] = useState("");
   const [mpesaName, setMpesaName] = useState("");
   const [requestingPayout, setRequestingPayout] = useState(false);
+  const [hasPendingPayout, setHasPendingPayout] = useState(false);
 
   const fetchWalletData = async () => {
     if (!user) return;
@@ -130,6 +131,10 @@ const AffiliateWallet = () => {
 
       if (payoutsError) throw payoutsError;
       setPayouts(payoutsData || []);
+      
+      // Check if there's any pending payout
+      const pendingPayout = payoutsData?.some(payout => payout.status === 'pending');
+      setHasPendingPayout(!!pendingPayout);
 
       // Fetch clicks
       const { data: clicksData, error: clicksError } = await supabase
@@ -357,10 +362,15 @@ const AffiliateWallet = () => {
           
           <Button 
             onClick={handlePayoutRequest} 
-            disabled={requestingPayout || !payoutAmount || parseFloat(payoutAmount) <= 0 || !mpesaPhone || !mpesaName}
+            disabled={requestingPayout || !payoutAmount || parseFloat(payoutAmount) <= 0 || !mpesaPhone || !mpesaName || hasPendingPayout}
           >
-            {requestingPayout ? "Requesting..." : "Request Payout"}
+            {requestingPayout ? "Requesting..." : hasPendingPayout ? "Pending Payout Exists" : "Request Payout"}
           </Button>
+          {hasPendingPayout && (
+            <p className="text-sm text-orange-600 mt-2">
+              You have a pending payout request. Please wait for it to be processed before requesting another.
+            </p>
+          )}
         </CardContent>
       </Card>
 
